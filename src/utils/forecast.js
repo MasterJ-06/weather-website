@@ -9,7 +9,7 @@ const forecast = (lat, long, callback) => {
         } else if (body.error) {
             callback ('That location does not exist', undefined)
         } else {
-            callback (undefined, 'It is currently ' +body.current.weather_descriptions[0] + ' with a temperature of ' + body.current.temperature + ' degrees, but it feels like ' + body.current.feelslike + ' degrees')
+            callback (undefined, 'It is currently ' +body.current.weather_descriptions[0] + ' with a temperature of ' + body.current.temperature + ' degrees, but it feels like ' + body.current.feelslike + ' degrees. The current wind speed is ' + body.current.wind_speed + ' kmph, and the humidity is ' + body.current.humidity + '%')
         }
     })
 }
