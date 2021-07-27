@@ -20,6 +20,18 @@ app.set('view engine', 'hbs')
 app.set('views', ViewsPath)
 hbs.registerPartials(PartialsPath)
 
+function requireHTTPS(req, res, next) {
+    // The 'x-forwarded-proto' check is for Heroku
+    if (!req.secure && req.get('x-forwarded-proto') !== 'https' && process.env.NODE_ENV !== "development") {
+        return res.redirect('https://' + req.get('host') + req.url);
+    }
+    next();
+}
+
+if (port == process.env.PORT) {
+    app.use(requireHTTPS)
+}
+
 // Set up static directory to serve
 app.use(express.static(PathDir))
 
