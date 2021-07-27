@@ -46,17 +46,14 @@ app.get('/help', (req, res) => {
 })
 
 app.get('/forecast', (req, res) => {
-    if (!req.query.address) {
-        return res.send({
-            error: 'You must provide an address'
-        })
-    }
-    geocode (req.query.address, (error, { lat, long, location } = {}) => {
+    forecast(req.query.lat, req.query.long, (error, forcastData) => {
         if (error) {
             return res.send({ error })
         }
 
-        forecast(lat, long, (error, forcastData) => {
+        const address = `${req.query.long},${req.query.lat}`
+
+        geocode (address, (error, { location } = {}) => {
             if (error) {
                 return res.send({ error })
             }
@@ -64,7 +61,6 @@ app.get('/forecast', (req, res) => {
             res.send({
                 forecast: forcastData,
                 location,
-                address: req.query.address
             })
         })
     })
